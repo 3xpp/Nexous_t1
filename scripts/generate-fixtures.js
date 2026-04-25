@@ -105,6 +105,7 @@ function generateFixture(index, rand) {
     created_at: createdAt.toISOString(),
     updated_at: updatedAt.toISOString(),
     draft_version: draftVersion,
+    domain_name: domain.name,
     draft_content: generateDraftContent(ticketId, reqId, domain),
     requirement_text: generateRequirementText(reqId, domain),
     traceability_up: generateTraceabilityUp(reqId, rand),
@@ -195,7 +196,7 @@ ${ticket.asil}
 ${ticket.requirement_summary}.
 
 ## Rationale
-${ISO_CLAUSES[ticket.requirement_summary] || 'ISO 26262-3:2018, clause 5-5.4.2'} — safety goal SG-${ticket.requirement_summary.substring(0, 2).toUpperCase()}-01 requires timely functional safety response.
+${ISO_CLAUSES[ticket.domain_name] || 'ISO 26262-3:2018, clause 5-5.4.2'} — safety goal SG-${ticket.domain_name.substring(0, 2).toUpperCase()}-01 requires timely functional safety response.
 
 ## Verification Method
 Back-to-back test comparing sensor input vs. actuator output.

@@ -7,7 +7,7 @@ D
 Brake light shall illuminate within 100 ms of pedal depression.
 
 ## Rationale
-ISO 26262-3:2018, clause 5-5.4.2 — safety goal SG-BR-01 requires timely functional safety response.
+ISO 26262-4:2018, clause 6-6.4.1 — safety goal SG-BR-01 requires timely functional safety response.
 
 ## Verification Method
 Back-to-back test comparing sensor input vs. actuator output.

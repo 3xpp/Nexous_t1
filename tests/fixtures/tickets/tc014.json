@@ -11,6 +11,7 @@
   "created_at": "2026-04-11T07:17:00.000Z",
   "updated_at": "2026-04-12T02:24:17.017Z",
   "draft_version": 3,
+  "domain_name": "Infotainment",
   "draft_content": "## Test Case TC-014\n\n**Derived from:** REQ-SYS-053\n**ASIL:** QM\n\n### Objective\nVerify that media volume shall not exceed 85 db(a).\n\n### Preconditions\n- Vehicle ignition ON\n- System under test operational\n\n### Test Steps\n1. Establish initial conditions\n2. Trigger event described in requirement\n3. Measure response time and correctness\n4. Record result\n\n### Acceptance Criteria\n- Response within specified time bound\n- No diagnostic faults triggered\n- Traceability link maintained\n\n### References\n- ISO 26262-3:2018, clause 5-5.4.2\n- Safety goal SG-IN-01",
   "requirement_text": "# REQ-SYS-053: Infotainment Safety Requirement\n\n## ASIL Level\nQM\n\n## Description\nMedia volume shall not exceed 85 dB(A).\n\n## Rationale\nISO 26262-3:2018, clause 5-5.4.2 — safety goal SG-IN-01 requires infotainment functional safety.\n\n## Verification Method\nBack-to-back test comparing sensor input vs. actuator output.\n\n## Traceability\n- Up: REQ-SYS-052 (Infotainment Functional Safety Concept)\n- Down: TC-SYS-053-SW (Software Integration Test)",
   "traceability_up": [],

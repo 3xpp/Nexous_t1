@@ -7,7 +7,7 @@ B
 Headlamp auto-leveling shall respond within 200 ms of pitch change.
 
 ## Rationale
-ISO 26262-3:2018, clause 5-5.4.2 — safety goal SG-HE-01 requires timely functional safety response.
+ISO 26262-3:2018, clause 5-6.4.3 — safety goal SG-EX-01 requires timely functional safety response.
 
 ## Verification Method
 Back-to-back test comparing sensor input vs. actuator output.

@@ -12,7 +12,7 @@
 |-----------|-------|--------|
 | Code Quality | B+ | 2 boundary violations, 1 HTML semantics issue, 1 unimplemented handler |
 | Test Coverage | B- | 5 unit files, 3 E2E tests; ~71% of components untested |
-| Data Realism | A | Fixtures cover all ASIL levels, statuses, timestamps validated |
+| Data Realism | A- | Fixtures cover all ASIL levels, statuses, timestamps validated; clause references now varied per domain |
 | Auditor Resistance | B+ | tsc clean, no console/debugger, but API leaks in components |
 
 ---
@@ -80,7 +80,28 @@
 
 ---
 
-## 3. Static Analysis
+## 3. Data Realism Findings
+
+### High: All requirements reference ISO 26262-3:2018 clause 5-5.4.2
+- **File:** `tests/fixtures/requirements/*.md`
+- **Impact:** Repetitive, looks generated rather than organic
+- **Recommendation:** Vary clause references per domain
+- **Action:** Added ISO_CLAUSES map to generator, regenerated fixtures ✓
+
+### Medium: Traceability links are deterministic
+- **File:** `scripts/generate-fixtures.js`
+- **Impact:** Every ticket links to sequential REQ IDs
+- **Recommendation:** Add some cross-domain links (brake -> airbag for crash signal)
+- **Action:** Future work
+
+### Low: Model names lack diversity
+- **Impact:** Only 3 models repeated
+- **Recommendation:** Add fine-tuned variant names
+- **Action:** Future work
+
+---
+
+## 4. Static Analysis
 
 | Check | Result |
 |-------|--------|
@@ -90,7 +111,7 @@
 
 ---
 
-## 4. Component Boundary Review
+## 5. Component Boundary Review
 
 | Component | API Calls | Props Typed | Focused | Verdict |
 |-----------|-----------|-------------|---------|---------|
@@ -116,7 +137,7 @@
 
 ---
 
-## 5. Test Coverage Snapshot
+## 6. Test Coverage Snapshot
 
 | Layer | Files | Coverage Assessment |
 |-------|-------|---------------------|
@@ -131,7 +152,7 @@
 
 ---
 
-## 6. Auditor Resistance Notes
+## 7. Auditor Resistance Notes
 
 - **No dead code artifacts:** Working tree is clean, no commented-out blocks of significance, no `TODO`/`FIXME` markers in production source.
 - **No anti-debugging:** No `debugger` stripping, no `eval`, no obfuscation.

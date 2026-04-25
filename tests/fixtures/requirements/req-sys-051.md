@@ -7,7 +7,7 @@ C
 Steering ECU shall detect and mitigate torque sensor failure within 50 ms.
 
 ## Rationale
-ISO 26262-3:2018, clause 5-5.4.2 — safety goal SG-ST-01 requires timely functional safety response.
+ISO 26262-4:2018, clause 6-7.4.2 — safety goal SG-ST-01 requires timely functional safety response.
 
 ## Verification Method
 Back-to-back test comparing sensor input vs. actuator output.

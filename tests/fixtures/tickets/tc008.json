@@ -11,6 +11,7 @@
   "created_at": "2026-04-21T11:16:00.000Z",
   "updated_at": "2026-04-23T06:55:45.004Z",
   "draft_version": 2,
+  "domain_name": "Rain sensor",
   "draft_content": "## Test Case TC-008\n\n**Derived from:** REQ-SYS-047\n**ASIL:** A\n\n### Objective\nVerify that wipers shall activate within 500 ms of rain detection.\n\n### Preconditions\n- Vehicle ignition ON\n- System under test operational\n\n### Test Steps\n1. Establish initial conditions\n2. Trigger event described in requirement\n3. Measure response time and correctness\n4. Record result\n\n### Acceptance Criteria\n- Response within specified time bound\n- No diagnostic faults triggered\n- Traceability link maintained\n\n### References\n- ISO 26262-3:2018, clause 5-5.4.2\n- Safety goal SG-RA-01",
   "requirement_text": "# REQ-SYS-047: Rain sensor Safety Requirement\n\n## ASIL Level\nA\n\n## Description\nWipers shall activate within 500 ms of rain detection.\n\n## Rationale\nISO 26262-3:2018, clause 5-5.4.2 — safety goal SG-RA-01 requires rain sensor functional safety.\n\n## Verification Method\nBack-to-back test comparing sensor input vs. actuator output.\n\n## Traceability\n- Up: REQ-SYS-046 (Rain sensor Functional Safety Concept)\n- Down: TC-SYS-047-SW (Software Integration Test)",
   "traceability_up": [],

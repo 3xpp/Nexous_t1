@@ -11,6 +11,7 @@
   "created_at": "2026-04-18T06:08:00.000Z",
   "updated_at": "2026-04-20T10:00:48.070Z",
   "draft_version": 1,
+  "domain_name": "Lane keeping",
   "draft_content": "## Test Case TC-006\n\n**Derived from:** REQ-SYS-045\n**ASIL:** B\n\n### Objective\nVerify that lka shall provide haptic feedback before lane departure.\n\n### Preconditions\n- Vehicle ignition ON\n- System under test operational\n\n### Test Steps\n1. Establish initial conditions\n2. Trigger event described in requirement\n3. Measure response time and correctness\n4. Record result\n\n### Acceptance Criteria\n- Response within specified time bound\n- No diagnostic faults triggered\n- Traceability link maintained\n\n### References\n- ISO 26262-3:2018, clause 5-7.4.2\n- Safety goal SG-LA-01",
   "requirement_text": "# REQ-SYS-045: Lane keeping Safety Requirement\n\n## ASIL Level\nB\n\n## Description\nLKA shall provide haptic feedback before lane departure.\n\n## Rationale\nISO 26262-3:2018, clause 5-7.4.2 — safety goal SG-LA-01 requires lane keeping functional safety.\n\n## Verification Method\nBack-to-back test comparing sensor input vs. actuator output.\n\n## Traceability\n- Up: REQ-SYS-044 (Lane keeping Functional Safety Concept)\n- Down: TC-SYS-045-SW (Software Integration Test)",
   "traceability_up": [],

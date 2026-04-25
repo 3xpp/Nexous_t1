@@ -7,7 +7,7 @@ C
 Cell balancing shall maintain delta V < 5 mV across all modules.
 
 ## Rationale
-ISO 26262-3:2018, clause 5-5.4.2 — safety goal SG-CE-01 requires timely functional safety response.
+ISO 26262-5:2018, clause 7-8.4.1 — safety goal SG-BA-01 requires timely functional safety response.
 
 ## Verification Method
 Back-to-back test comparing sensor input vs. actuator output.
