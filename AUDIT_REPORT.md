@@ -244,7 +244,7 @@
 | Medium | Add empty state unit test | Fixed | ✓ |
 | Medium | Add SSE reconnection unit test | Fixed | ✓ |
 | Medium | Add DashboardPane metrics unit test | Fixed | ✓ |
-| Low | Extract CSS custom properties | Future | Pending |
+| Low | Extract CSS custom properties | Fixed | ✓ |
 
 ## 7. Appendix — Audit Methodology
 

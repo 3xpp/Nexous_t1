@@ -9,19 +9,19 @@ interface TicketRowProps {
 }
 
 const asilColors: Record<string, string> = {
-  QM: '#6b7280',
-  A: '#22c55e',
-  B: '#3b82f6',
-  C: '#f59e0b',
-  D: '#ef4444'
+  QM: 'var(--color-asil-qm)',
+  A: 'var(--color-asil-a)',
+  B: 'var(--color-asil-b)',
+  C: 'var(--color-asil-c)',
+  D: 'var(--color-asil-d)'
 };
 
 const statusDots: Record<string, string> = {
-  draft: '#9ca3af',
-  pending: '#f59e0b',
-  approved: '#22c55e',
-  rejected: '#ef4444',
-  draft_low_confidence: '#f97316'
+  draft: 'var(--color-status-draft)',
+  pending: 'var(--color-status-pending)',
+  approved: 'var(--color-status-approved)',
+  rejected: 'var(--color-status-rejected)',
+  draft_low_confidence: 'var(--color-status-low-confidence)'
 };
 
 export function TicketRow({ ticket, isSelected, onSelect, density, renderAs = 'div' }: TicketRowProps) {

@@ -15,9 +15,9 @@ export function DashboardPane({ projectId }: DashboardPaneProps) {
 
   if (loading || !metrics) {
     return (
-      <div role="status" aria-busy="true" style={{ height: '280px', padding: '16px', display: 'flex', gap: '16px' }}>
+      <div role="status" aria-busy="true" style={{ height: `var(--dashboard-height)`, padding: `var(--space-lg)`, display: 'flex', gap: `var(--space-lg)` }}>
         {Array.from({ length: 5 }).map((_, i) => (
-          <div key={i} style={{ flex: 1, background: '#f3f4f6', borderRadius: '8px' }} />
+          <div key={i} style={{ flex: 1, background: 'var(--color-skeleton)', borderRadius: `var(--radius-xl)` }} />
         ))}
       </div>
     );
@@ -32,25 +32,25 @@ export function DashboardPane({ projectId }: DashboardPaneProps) {
   ];
 
   return (
-    <div style={{ height: '280px', padding: '16px', display: 'flex', gap: '16px', borderBottom: '1px solid #e5e7eb' }}>
+    <div style={{ height: `var(--dashboard-height)`, padding: `var(--space-lg)`, display: 'flex', gap: `var(--space-lg)`, borderBottom: `1px solid var(--color-divider)` }}>
       {cards.map((card) => (
-        <div key={card.label} style={{ flex: 1, background: '#f9fafb', borderRadius: '8px', padding: '16px', border: '1px solid #e5e7eb' }}>
-          <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '8px' }}>{card.label}</div>
-          <div style={{ fontSize: '28px', fontWeight: 700, color: '#111827' }}>{card.value}</div>
+        <div key={card.label} style={{ flex: 1, background: 'var(--color-surface)', borderRadius: `var(--radius-xl)`, padding: `var(--space-lg)`, border: `1px solid var(--color-divider)` }}>
+          <div style={{ fontSize: '12px', color: 'var(--color-muted)', marginBottom: `var(--space-sm)` }}>{card.label}</div>
+          <div style={{ fontSize: '28px', fontWeight: 700, color: 'var(--color-primary)' }}>{card.value}</div>
         </div>
       ))}
       <div style={{
         width: '120px',
-        background: metrics.audit_chain_healthy ? '#dcfce7' : '#fee2e2',
-        borderRadius: '8px',
-        padding: '16px',
-        border: `1px solid ${metrics.audit_chain_healthy ? '#86efac' : '#fecaca'}`,
+        background: metrics.audit_chain_healthy ? 'var(--color-healthy-bg)' : 'var(--color-broken-bg)',
+        borderRadius: `var(--radius-xl)`,
+        padding: `var(--space-lg)`,
+        border: `1px solid ${metrics.audit_chain_healthy ? 'var(--color-healthy-border)' : 'var(--color-broken-border)'}`,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         fontSize: '13px',
         fontWeight: 600,
-        color: metrics.audit_chain_healthy ? '#166534' : '#991b1b'
+        color: metrics.audit_chain_healthy ? 'var(--color-healthy-text)' : 'var(--color-broken-text)'
       }}>
         {metrics.audit_chain_healthy ? 'Chain Healthy' : 'Chain Broken'}
       </div>

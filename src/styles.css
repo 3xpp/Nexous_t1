@@ -2,6 +2,67 @@
   box-sizing: border-box;
 }
 
+:root {
+  /* Colors */
+  --color-primary: #111827;
+  --color-secondary: #374151;
+  --color-muted: #6b7280;
+  --color-light: #9ca3af;
+  --color-border: #d1d5db;
+  --color-divider: #e5e7eb;
+  --color-surface: #f9fafb;
+  --color-skeleton: #f3f4f6;
+  --color-bg: #fff;
+
+  --color-blue: #2563eb;
+  --color-green: #22c55e;
+  --color-amber: #f59e0b;
+  --color-red: #ef4444;
+
+  --color-asil-qm: #6b7280;
+  --color-asil-a: #22c55e;
+  --color-asil-b: #3b82f6;
+  --color-asil-c: #f59e0b;
+  --color-asil-d: #ef4444;
+
+  --color-status-draft: #9ca3af;
+  --color-status-pending: #f59e0b;
+  --color-status-approved: #22c55e;
+  --color-status-rejected: #ef4444;
+  --color-status-low-confidence: #f97316;
+
+  --color-healthy-bg: #dcfce7;
+  --color-healthy-border: #86efac;
+  --color-healthy-text: #166534;
+  --color-broken-bg: #fee2e2;
+  --color-broken-border: #fecaca;
+  --color-broken-text: #991b1b;
+
+  --color-merge-bg: #fef3c7;
+  --color-merge-border: #fcd34d;
+  --color-merge-text: #92400e;
+
+  /* Spacing */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 12px;
+  --space-lg: 16px;
+
+  /* Border radius */
+  --radius-sm: 3px;
+  --radius-md: 4px;
+  --radius-lg: 6px;
+  --radius-xl: 8px;
+
+  /* Layout */
+  --header-height: 48px;
+  --dashboard-height: 280px;
+
+  /* Typography */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+}
+
 html, body, #app {
   height: 100%;
   margin: 0;
@@ -9,16 +70,16 @@ html, body, #app {
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  color: #111827;
-  background: #fff;
+  font-family: var(--font-sans);
+  color: var(--color-primary);
+  background: var(--color-bg);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 button:focus-visible,
 input:focus-visible {
-  outline: 2px solid #2563eb;
+  outline: 2px solid var(--color-blue);
   outline-offset: 2px;
 }
 
@@ -32,6 +93,6 @@ input:focus-visible {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #d1d5db;
-  border-radius: 3px;
+  background: var(--color-border);
+  border-radius: var(--radius-sm);
 }

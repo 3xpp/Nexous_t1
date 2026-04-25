@@ -9,18 +9,23 @@ describe('ticketStore SSE', () => {
     eventSourceInstances = [];
 
     global.EventSource = vi.fn().mockImplementation((url: string) => {
+      const listeners: Record<string, Array<(e: Event) => void>> = {};
       const instance = {
         url,
         readyState: 0,
-        onopen: null as ((e: Event) => void) | null,
-        onmessage: null as ((e: MessageEvent) => void) | null,
-        onerror: null as ((e: Event) => void) | null,
         close: vi.fn(),
-        addEventListener: vi.fn(),
+        addEventListener: vi.fn((event: string, handler: (e: Event) => void) => {
+          if (!listeners[event]) listeners[event] = [];
+          listeners[event].push(handler);
+        }),
         removeEventListener: vi.fn(),
-        dispatchEvent: vi.fn()
+        dispatchEvent: vi.fn((event: Event) => {
+          const handlers = listeners[event.type] || [];
+          handlers.forEach((h) => h(event));
+          return true;
+        })
       };
-      eventSourceInstances.push(instance);
+      eventSourceInstances.push({ ...instance, _listeners: listeners });
       return instance;
     }) as any;
   });
@@ -49,11 +54,9 @@ describe('ticketStore SSE', () => {
     ticketStore.connectStream();
     expect(global.EventSource).toHaveBeenCalledTimes(1);
 
-    if (eventSourceInstances[0].onerror) {
-      eventSourceInstances[0].onerror(new Event('error'));
-    }
+    eventSourceInstances[0].dispatchEvent(new Event('error'));
 
-    vi.advanceTimersByTime(5000);
+    vi.advanceTimersByTime(1000);
     expect(global.EventSource).toHaveBeenCalledTimes(2);
     vi.useRealTimers();
   });

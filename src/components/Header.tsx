@@ -10,31 +10,31 @@ export function Header({ reconnecting }: HeaderProps) {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'space-between',
-      padding: '0 16px',
-      height: '48px',
-      borderBottom: '1px solid #e5e7eb',
-      background: '#fff'
+      padding: `0 var(--space-lg)`,
+      height: `var(--header-height)`,
+      borderBottom: `1px solid var(--color-divider)`,
+      background: 'var(--color-bg)'
     }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: `var(--space-lg)` }}>
         <span style={{ fontWeight: 600, fontSize: '14px' }}>Nexous</span>
         <ModeToggle />
         {reconnecting && (
-          <span aria-live="polite" style={{ fontSize: '12px', color: '#f59e0b' }}>Reconnecting...</span>
+          <span aria-live="polite" style={{ fontSize: '12px', color: 'var(--color-amber)' }}>Reconnecting...</span>
         )}
       </div>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: `var(--space-md)` }}>
         <input
           type="search"
           aria-label="Search tickets"
           placeholder="Search tickets..."
           style={{
-            padding: '4px 8px',
-            border: '1px solid #d1d5db',
-            borderRadius: '4px',
+            padding: `var(--space-xs) var(--space-sm)`,
+            border: `1px solid var(--color-border)`,
+            borderRadius: `var(--radius-md)`,
             fontSize: '13px'
           }}
         />
-        <span style={{ fontSize: '13px', color: '#6b7280' }}>user@nexous.local</span>
+        <span style={{ fontSize: '13px', color: 'var(--color-muted)' }}>user@nexous.local</span>
       </div>
     </header>
   );
