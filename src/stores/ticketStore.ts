@@ -15,6 +15,7 @@ export interface TicketStore {
   applyDelta: (delta: TicketDelta) => void;
   init: () => void;
   reset: () => void;
+  connectStream: () => void;
 }
 
 function createTicketStore(): TicketStore {
@@ -23,6 +24,7 @@ function createTicketStore(): TicketStore {
   const tickets = signal<Map<string, TicketSummary>>(new Map());
   const filters = signal<FilterState>({ project_id: 'default', status: 'all', asil: 'all', reviewer_id: 'all', search: '' });
   const sseConnection = signal<EventSource | null>(null);
+  let reconnectTimer: ReturnType<typeof setTimeout> | null = null;
 
   const filteredTickets = computed(() => {
     const list = Array.from(tickets.value.values());
@@ -70,16 +72,37 @@ function createTicketStore(): TicketStore {
     }
   }
 
+  function disconnectStream() {
+    if (reconnectTimer) {
+      clearTimeout(reconnectTimer);
+      reconnectTimer = null;
+    }
+    sseConnection.value?.close();
+    sseConnection.value = null;
+  }
+
+  function connectStream() {
+    disconnectStream();
+    const projectId = filters.value.project_id;
+    const es = new EventSource(`/api/tickets/stream?project=${encodeURIComponent(projectId)}`);
+    es.onerror = () => {
+      disconnectStream();
+      reconnectTimer = setTimeout(() => {
+        connectStream();
+      }, 5000);
+    };
+    sseConnection.value = es;
+  }
+
   function reset() {
     mode.value = 'reviewer';
     selectedId.value = null;
     tickets.value = new Map();
     filters.value = { project_id: 'default', status: 'all', asil: 'all', reviewer_id: 'all', search: '' };
-    sseConnection.value?.close();
-    sseConnection.value = null;
+    disconnectStream();
   }
 
-  return { mode, selectedId, tickets, filters, sseConnection, filteredTickets, setMode, selectTicket, applyDelta, init, reset };
+  return { mode, selectedId, tickets, filters, sseConnection, filteredTickets, setMode, selectTicket, applyDelta, init, reset, connectStream };
 }
 
 export const ticketStore = createTicketStore();
