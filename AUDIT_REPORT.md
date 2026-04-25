@@ -19,35 +19,35 @@
 
 ## 1. Code Quality Findings
 
-### F-001: Component directly calls API (High)
+### F-001: Component directly calls API (High) — FIXED
 - **File:** `src/components/DashboardPane.tsx`
 - **Line:** 15
-- **Impact:** Violates the store-boundary rule. `fetchMetrics` is imported from `../api` and invoked inside a component lifecycle. If the API contract changes, the fix must be made in multiple presentation-layer files.
-- **Recommendation:** Introduce a `metricsStore` (or extend `ticketStore`) to own the `fetchMetrics` call. `DashboardPane` should read `metricsStore.data.value` and trigger `metricsStore.load(projectId)` via `useEffect`.
+- **Impact:** Violates the store-boundary rule. `fetchMetrics` was imported from `../api` and invoked inside a component lifecycle.
+- **Action:** Created `src/stores/metricsStore.ts` to own `fetchMetrics`. `DashboardPane` now reads `metricsStore.data.value` and triggers `metricsStore.load(projectId)` via `useEffect`. ✓
 
-### F-002: Layout component directly creates EventSource (Medium)
+### F-002: Layout component directly creates EventSource (Medium) — FIXED
 - **File:** `src/components/MasterTicketView.tsx`
 - **Line:** 22
-- **Impact:** `createTicketStream` is an API primitive. Managing SSE connections, reconnection backoff, and cleanup inside a layout component blurs the boundary between presentation and data layer.
-- **Recommendation:** Move `createTicketStream` orchestration into `ticketStore.initStream(projectId)` so the component only calls `ticketStore.init(projectId)` and `ticketStore.cleanup()`.
+- **Impact:** `createTicketStream` was an API primitive managed inside a layout component.
+- **Action:** Moved all SSE orchestration into `ticketStore.connectStream()` with exponential backoff. `MasterTicketView` now only calls `ticketStore.connectStream()` on mount and `ticketStore.disconnectStream()` on unmount. ✓
 
-### F-003: Invalid HTML nesting (Medium)
+### F-003: Invalid HTML nesting (Medium) — FIXED
 - **File:** `src/components/FilteredQueueTable.tsx`
 - **Line:** 32
-- **Impact:** `TicketRow` renders a `<div>`, but `FilteredQueueTable` wraps it in a `<tr>`. A `<div>` is not a valid child of `<tr>`, which can cause unexpected rendering in strict mode or with CSS table layouts.
-- **Recommendation:** Either render `TicketRow` as a fragment of `<td>` elements inside the `<tr>`, or switch the table to a CSS-grid / flex layout.
+- **Impact:** `TicketRow` rendered a `<div>` inside a `<tr>`, producing invalid HTML.
+- **Action:** Added `renderAs?: 'div' | 'tr'` prop to `TicketRow`. `FilteredQueueTable` now passes `renderAs="tr"` so `TicketRow` renders proper `<tr>` + `<td>` elements. ✓
 
-### F-004: Unimplemented save handler (Low)
+### F-004: Unimplemented save handler (Low) — FIXED
 - **File:** `src/components/DraftTab.tsx`
 - **Line:** 73
-- **Impact:** The "Save Edit" button has an inline comment `/* save editContent */` with no actual mutation. Users can enter edit mode, type changes, and click Save, but nothing persists.
-- **Recommendation:** Wire the save action to `ticketDetailStore.saveDraft(editContent)` (add the method to the store if it does not exist).
+- **Impact:** The "Save Edit" button had an inline comment `/* save editContent */` with no actual mutation.
+- **Action:** Added `saveDraft(content: string)` to `ticketDetailStore` that updates `draft_content` and increments `draft_version`. Wired the Save Edit button to call it. ✓
 
-### F-005: Unused prop (Low)
+### F-005: Unused prop (Low) — FIXED
 - **File:** `src/components/Header.tsx`
 - **Line:** 4, 8
-- **Impact:** `projectId` is declared in `HeaderProps` and destructured but never referenced. Creates misleading contract for consumers.
-- **Recommendation:** Remove `projectId` from `HeaderProps` and from the call site in `MasterTicketView`.
+- **Impact:** `projectId` was declared in `HeaderProps` and destructured but never referenced.
+- **Action:** Removed `projectId` from `HeaderProps` and from the call site in `MasterTicketView`. ✓
 
 ### F-006: Duplicate global keydown listeners (Low)
 - **Files:** `src/components/QueuePane.tsx`, `src/components/TicketDetailPane.tsx`, `src/hooks/useKeyboardShortcuts.ts`
@@ -175,13 +175,13 @@
 | Component | API Calls | Props Typed | Focused | Verdict |
 |-----------|-----------|-------------|---------|---------|
 | AuditTab.tsx | via `auditStore` | n/a (no props) | yes | pass |
-| DashboardPane.tsx | **direct `fetchMetrics`** | yes | yes | **fail** |
+| DashboardPane.tsx | via `metricsStore` | yes | yes | pass |
 | DraftTab.tsx | via `ticketDetailStore` | n/a | yes* | pass* |
 | ErrorInline.tsx | none | yes | yes | pass |
 | FilteredQueueTable.tsx | via `ticketStore` | n/a | yes | pass |
 | Header.tsx | none | yes | yes | pass |
 | LeadLayout.tsx | none | yes | yes | pass |
-| MasterTicketView.tsx | **direct `createTicketStream`** | yes | yes | **fail** |
+| MasterTicketView.tsx | via `ticketStore.connectStream()` | yes | yes | pass |
 | ModeToggle.tsx | via `ticketStore` | n/a | yes | pass |
 | QueuePane.tsx | via `ticketStore` | n/a | yes | pass |
 | RequirementTab.tsx | via `ticketDetailStore` | n/a | yes | pass |
@@ -201,13 +201,13 @@
 | Layer | Files | Coverage Assessment |
 |-------|-------|---------------------|
 | Stores | `ticketStore.test.ts`, `ticketDetailStore.test.ts` | Core logic covered (mode, delta merge, approve, conflict) |
-| Components | `ticketRow.test.tsx`, `resizableSplit.test.tsx` | 2 of 17 components tested |
+| Components | `ticketRow.test.tsx`, `resizableSplit.test.tsx`, `queuePane.test.tsx`, `dashboardPane.test.tsx` | 4 of 17 components tested |
 | Hooks | `keyboardShortcuts.test.ts` | `useKeyboardShortcuts` covered; `useResizable` untested |
 | API | none | `api.ts` untested |
 | E2E | `masterTicketView.spec.ts` | 3 smoke tests (mode switch, keyboard shortcut, fixture load) |
 | Fixtures | `fixtures.test.ts` | Validates shape, ASIL/status coverage, timestamps |
 
-**Recommendation:** Add component tests for `DraftTab` (approve/reject flow), `DashboardPane` (metrics render), and `QueuePane` (keyboard navigation). Add a unit test for `useResizable` to cover drag math.
+**Recommendation:** Add component tests for `DraftTab` (approve/reject flow). Add a unit test for `useResizable` to cover drag math.
 
 ---
 
@@ -240,10 +240,10 @@
 | High | Add ARIA roles to TicketRow | Fixed | ✓ |
 | High | Add ARIA roles to TicketDetailPane tabs | Fixed | ✓ |
 | High | Add ARIA roles to AuditTab | Fixed | ✓ |
-| Medium | Add ESLint configuration | Future | Pending |
-| Medium | Add empty state unit test | Future | Pending |
-| Medium | Add SSE reconnection unit test | Future | Pending |
-| Medium | Add DashboardPane metrics unit test | Future | Pending |
+| Medium | Add ESLint configuration | Fixed | ✓ |
+| Medium | Add empty state unit test | Fixed | ✓ |
+| Medium | Add SSE reconnection unit test | Fixed | ✓ |
+| Medium | Add DashboardPane metrics unit test | Fixed | ✓ |
 | Low | Extract CSS custom properties | Future | Pending |
 
 ## 7. Appendix — Audit Methodology
