@@ -20,7 +20,7 @@ export function DashboardPane({ projectId }: DashboardPaneProps) {
 
   if (loading || !metrics) {
     return (
-      <div style={{ height: '280px', padding: '16px', display: 'flex', gap: '16px' }}>
+      <div role="status" aria-busy="true" style={{ height: '280px', padding: '16px', display: 'flex', gap: '16px' }}>
         {Array.from({ length: 5 }).map((_, i) => (
           <div key={i} style={{ flex: 1, background: '#f3f4f6', borderRadius: '8px' }} />
         ))}
