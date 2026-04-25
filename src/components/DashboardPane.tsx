@@ -1,21 +1,16 @@
-import { useEffect, useState } from 'preact/hooks';
-import { fetchMetrics } from '../api';
-import type { TicketMetrics } from '../types';
+import { useEffect } from 'preact/hooks';
+import { metricsStore } from '../stores/metricsStore';
 
 interface DashboardPaneProps {
   projectId: string;
 }
 
 export function DashboardPane({ projectId }: DashboardPaneProps) {
-  const [metrics, setMetrics] = useState<TicketMetrics | null>(null);
-  const [loading, setLoading] = useState(true);
+  const metrics = metricsStore.data.value;
+  const loading = metricsStore.loading.value;
 
   useEffect(() => {
-    let cancelled = false;
-    fetchMetrics(projectId)
-      .then((m) => { if (!cancelled) { setMetrics(m); setLoading(false); } })
-      .catch(() => { if (!cancelled) setLoading(false); });
-    return () => { cancelled = true; };
+    metricsStore.load(projectId);
   }, [projectId]);
 
   if (loading || !metrics) {

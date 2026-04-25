@@ -1,7 +1,6 @@
 import { ModeToggle } from './ModeToggle';
 
 interface HeaderProps {
-  projectId: string;
   reconnecting?: boolean;
 }
 

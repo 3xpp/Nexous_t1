@@ -11,6 +11,7 @@ export interface TicketDetailStore {
   selectTicket: (id: string) => Promise<void>;
   approve: () => Promise<void>;
   reject: () => Promise<void>;
+  saveDraft: (content: string) => void;
   resolveMerge: (latestVersion: number) => void;
   reset: () => void;
 }
@@ -67,6 +68,13 @@ function createTicketDetailStore(): TicketDetailStore {
     }
   }
 
+  function saveDraft(content: string) {
+    const t = ticket.value;
+    if (!t) return;
+    ticket.value = { ...t, draft_content: content, draft_version: t.draft_version + 1 };
+    draftVersion.value = t.draft_version + 1;
+  }
+
   function resolveMerge(latestVersion: number) {
     draftVersion.value = latestVersion;
     mergeState.value = null;
@@ -80,7 +88,7 @@ function createTicketDetailStore(): TicketDetailStore {
     mergeState.value = null;
   }
 
-  return { ticket, loading, error, draftVersion, mergeState, selectTicket, approve, reject, resolveMerge, reset };
+  return { ticket, loading, error, draftVersion, mergeState, selectTicket, approve, reject, saveDraft, resolveMerge, reset };
 }
 
 export const ticketDetailStore = createTicketDetailStore();

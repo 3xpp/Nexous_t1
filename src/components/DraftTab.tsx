@@ -73,7 +73,7 @@ export function DraftTab() {
             </button>
             <button
               type="button"
-              onClick={() => { setIsEditing(false); /* save editContent */ }}
+              onClick={() => { setIsEditing(false); ticketDetailStore.saveDraft(editContent); }}
               style={{ padding: '6px 16px', fontSize: '13px', border: 'none', background: '#2563eb', color: '#fff', borderRadius: '4px', cursor: 'pointer' }}
             >
               Save Edit

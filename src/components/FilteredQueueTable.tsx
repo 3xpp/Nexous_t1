@@ -21,16 +21,14 @@ export function FilteredQueueTable() {
         </thead>
         <tbody>
           {tickets.map((ticket: TicketSummary) => (
-            <tr
+            <TicketRow
               key={ticket.ticket_id}
-              onClick={() => ticketStore.selectTicket(ticket.ticket_id)}
-              style={{
-                cursor: 'pointer',
-                background: ticket.ticket_id === selectedId ? '#eff6ff' : 'transparent'
-              }}
-            >
-              <TicketRow ticket={ticket} isSelected={ticket.ticket_id === selectedId} onSelect={() => {}} density="compact" />
-            </tr>
+              ticket={ticket}
+              isSelected={ticket.ticket_id === selectedId}
+              onSelect={() => ticketStore.selectTicket(ticket.ticket_id)}
+              density="compact"
+              renderAs="tr"
+            />
           ))}
         </tbody>
       </table>

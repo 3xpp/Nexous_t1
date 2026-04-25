@@ -16,6 +16,7 @@ export interface TicketStore {
   init: () => void;
   reset: () => void;
   connectStream: () => void;
+  disconnectStream: () => void;
 }
 
 function createTicketStore(): TicketStore {
@@ -25,6 +26,9 @@ function createTicketStore(): TicketStore {
   const filters = signal<FilterState>({ project_id: 'default', status: 'all', asil: 'all', reviewer_id: 'all', search: '' });
   const sseConnection = signal<EventSource | null>(null);
   let reconnectTimer: ReturnType<typeof setTimeout> | null = null;
+  let reconnectDelay = 1000;
+  const INITIAL_RECONNECT_DELAY = 1000;
+  const MAX_RECONNECT_DELAY = 30000;
 
   const filteredTickets = computed(() => {
     const list = Array.from(tickets.value.values());
@@ -85,12 +89,21 @@ function createTicketStore(): TicketStore {
     disconnectStream();
     const projectId = filters.value.project_id;
     const es = new EventSource(`/api/tickets/stream?project=${encodeURIComponent(projectId)}`);
-    es.onerror = () => {
+    es.addEventListener('open', () => {
+      reconnectDelay = INITIAL_RECONNECT_DELAY;
+    });
+    es.addEventListener('ticket_delta', (e: MessageEvent) => {
+      const delta = JSON.parse(e.data);
+      applyDelta(delta);
+    });
+    es.addEventListener('error', () => {
       disconnectStream();
+      const delay = reconnectDelay;
+      reconnectDelay = Math.min(reconnectDelay * 2, MAX_RECONNECT_DELAY);
       reconnectTimer = setTimeout(() => {
         connectStream();
-      }, 5000);
-    };
+      }, delay);
+    });
     sseConnection.value = es;
   }
 
@@ -102,7 +115,7 @@ function createTicketStore(): TicketStore {
     disconnectStream();
   }
 
-  return { mode, selectedId, tickets, filters, sseConnection, filteredTickets, setMode, selectTicket, applyDelta, init, reset, connectStream };
+  return { mode, selectedId, tickets, filters, sseConnection, filteredTickets, setMode, selectTicket, applyDelta, init, reset, connectStream, disconnectStream };
 }
 
 export const ticketStore = createTicketStore();
