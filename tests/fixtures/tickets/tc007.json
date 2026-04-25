@@ -1,0 +1,30 @@
+{
+  "ticket_id": "TC-007",
+  "requirement_id": "REQ-SYS-046",
+  "requirement_summary": "Seat occupancy sensor shall distinguish adult vs. child within 500 ms",
+  "asil": "D",
+  "model_name": "llama",
+  "model_version": "3.1",
+  "generation_score": 0.78,
+  "status": "rejected",
+  "reviewer_id": null,
+  "created_at": "2026-04-23T07:24:00.000Z",
+  "updated_at": "2026-04-26T11:40:02.687Z",
+  "draft_version": 2,
+  "draft_content": "## Test Case TC-007\n\n**Derived from:** REQ-SYS-046\n**ASIL:** D\n\n### Objective\nVerify that airbag ecu shall fire within 10 ms of impact threshold.\n\n### Preconditions\n- Vehicle ignition ON\n- System under test operational\n\n### Test Steps\n1. Establish initial conditions\n2. Trigger event described in requirement\n3. Measure response time and correctness\n4. Record result\n\n### Acceptance Criteria\n- Response within specified time bound\n- No diagnostic faults triggered\n- Traceability link maintained\n\n### References\n- ISO 26262-4:2018, clause 6-8.4.1\n- Safety goal SG-AI-01",
+  "requirement_text": "# REQ-SYS-046: Airbag deployment Safety Requirement\n\n## ASIL Level\nD\n\n## Description\nAirbag ECU shall fire within 10 ms of impact threshold.\n\n## Rationale\nISO 26262-4:2018, clause 6-8.4.1 — safety goal SG-AI-01 requires airbag deployment functional safety.\n\n## Verification Method\nBack-to-back test comparing sensor input vs. actuator output.\n\n## Traceability\n- Up: REQ-SYS-045 (Airbag deployment Functional Safety Concept)\n- Down: TC-SYS-046-SW (Software Integration Test)",
+  "traceability_up": [
+    {
+      "artifact_id": "REQ-SYS-045",
+      "artifact_type": "system_requirement",
+      "link_type": "derives_from"
+    }
+  ],
+  "traceability_down": [
+    {
+      "artifact_id": "TC-007-SW",
+      "artifact_type": "software_test",
+      "link_type": "verified_by"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "ticket_id": "TC-012",
+  "requirement_id": "REQ-SYS-051",
+  "requirement_summary": "Steering ECU shall detect and mitigate torque sensor failure within 50 ms",
+  "asil": "C",
+  "model_name": "llama",
+  "model_version": "3.1",
+  "generation_score": 0.78,
+  "status": "draft_low_confidence",
+  "reviewer_id": "eng.schmidt@nexous.local",
+  "created_at": "2026-04-22T12:53:00.000Z",
+  "updated_at": "2026-04-25T03:31:07.808Z",
+  "draft_version": 2,
+  "draft_content": "## Test Case TC-012\n\n**Derived from:** REQ-SYS-051\n**ASIL:** C\n\n### Objective\nVerify that eps shall limit assist torque below 25 nm at speeds > 120 km/h.\n\n### Preconditions\n- Vehicle ignition ON\n- System under test operational\n\n### Test Steps\n1. Establish initial conditions\n2. Trigger event described in requirement\n3. Measure response time and correctness\n4. Record result\n\n### Acceptance Criteria\n- Response within specified time bound\n- No diagnostic faults triggered\n- Traceability link maintained\n\n### References\n- ISO 26262-4:2018, clause 6-7.4.2\n- Safety goal SG-ST-01",
+  "requirement_text": "# REQ-SYS-051: Steering torque Safety Requirement\n\n## ASIL Level\nC\n\n## Description\nEPS shall limit assist torque below 25 Nm at speeds > 120 km/h.\n\n## Rationale\nISO 26262-4:2018, clause 6-7.4.2 — safety goal SG-ST-01 requires steering torque functional safety.\n\n## Verification Method\nBack-to-back test comparing sensor input vs. actuator output.\n\n## Traceability\n- Up: REQ-SYS-050 (Steering torque Functional Safety Concept)\n- Down: TC-SYS-051-SW (Software Integration Test)",
+  "traceability_up": [
+    {
+      "artifact_id": "REQ-SYS-050",
+      "artifact_type": "system_requirement",
+      "link_type": "derives_from"
+    }
+  ],
+  "traceability_down": [
+    {
+      "artifact_id": "TC-012-SW",
+      "artifact_type": "software_test",
+      "link_type": "verified_by"
+    }
+  ]
+}

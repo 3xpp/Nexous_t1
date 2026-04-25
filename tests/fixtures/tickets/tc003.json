@@ -1,0 +1,24 @@
+{
+  "ticket_id": "TC-003",
+  "requirement_id": "REQ-SYS-042",
+  "requirement_summary": "Headlamp auto-leveling shall respond within 200 ms of pitch change",
+  "asil": "B",
+  "model_name": "claude-sonnet-4-6",
+  "model_version": "20251001",
+  "generation_score": 0.76,
+  "status": "pending",
+  "reviewer_id": null,
+  "created_at": "2026-04-23T09:58:00.000Z",
+  "updated_at": "2026-04-28T03:53:50.183Z",
+  "draft_version": 3,
+  "draft_content": "## Test Case TC-003\n\n**Derived from:** REQ-SYS-042\n**ASIL:** B\n\n### Objective\nVerify that drl shall dim to 30% when turn signal active.\n\n### Preconditions\n- Vehicle ignition ON\n- System under test operational\n\n### Test Steps\n1. Establish initial conditions\n2. Trigger event described in requirement\n3. Measure response time and correctness\n4. Record result\n\n### Acceptance Criteria\n- Response within specified time bound\n- No diagnostic faults triggered\n- Traceability link maintained\n\n### References\n- ISO 26262-3:2018, clause 5-6.4.3\n- Safety goal SG-EX-01",
+  "requirement_text": "# REQ-SYS-042: Exterior lighting Safety Requirement\n\n## ASIL Level\nB\n\n## Description\nDRL shall dim to 30% when turn signal active.\n\n## Rationale\nISO 26262-3:2018, clause 5-6.4.3 — safety goal SG-EX-01 requires exterior lighting functional safety.\n\n## Verification Method\nBack-to-back test comparing sensor input vs. actuator output.\n\n## Traceability\n- Up: REQ-SYS-041 (Exterior lighting Functional Safety Concept)\n- Down: TC-SYS-042-SW (Software Integration Test)",
+  "traceability_up": [
+    {
+      "artifact_id": "REQ-SYS-041",
+      "artifact_type": "system_requirement",
+      "link_type": "derives_from"
+    }
+  ],
+  "traceability_down": []
+}

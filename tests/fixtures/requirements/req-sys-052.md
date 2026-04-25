@@ -1,0 +1,17 @@
+# REQ-SYS-052: Headlamp auto-leveling shall respond within 200 ms of pitch change
+
+## ASIL Level
+B
+
+## Description
+Headlamp auto-leveling shall respond within 200 ms of pitch change.
+
+## Rationale
+ISO 26262-3:2018, clause 5-5.4.2 — safety goal SG-HE-01 requires timely functional safety response.
+
+## Verification Method
+Back-to-back test comparing sensor input vs. actuator output.
+
+## Traceability
+- Up: None
+- Down: TC-013-SW (software_test)
