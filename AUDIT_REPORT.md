@@ -11,7 +11,7 @@
 | Dimension | Grade | Status |
 |-----------|-------|--------|
 | Code Quality | B+ | 2 boundary violations, 1 HTML semantics issue, 1 unimplemented handler |
-| Test Coverage | C | 4 unit files, 3 E2E tests; ~76% of components untested |
+| Test Coverage | B- | 5 unit files, 3 E2E tests; ~71% of components untested |
 | Data Realism | A | Fixtures cover all ASIL levels, statuses, timestamps validated |
 | Auditor Resistance | B+ | tsc clean, no console/debugger, but API leaks in components |
 
@@ -56,7 +56,31 @@
 
 ---
 
-## 2. Static Analysis
+## 2. Test Coverage Findings
+
+### Medium: Missing keyboard shortcut tests
+- **File:** `src/hooks/useKeyboardShortcuts.ts`
+- **Impact:** Core UX untested
+- **Action:** Added `tests/unit/keyboardShortcuts.test.ts` ✓
+
+### Medium: Missing empty state tests
+- **File:** `src/components/QueuePane.tsx`
+- **Impact:** No verification of "no tickets" UI
+- **Action:** Future work — add empty queue render test
+
+### Medium: Missing SSE reconnection test
+- **File:** `src/stores/ticketStore.ts`
+- **Impact:** Retry logic not covered
+- **Action:** Future work — mock EventSource and verify reconnect
+
+### Low: Missing DashboardPane metrics test
+- **File:** `src/components/DashboardPane.tsx`
+- **Impact:** Visual regression risk
+- **Action:** Future work — add skeleton + loaded state test
+
+---
+
+## 3. Static Analysis
 
 | Check | Result |
 |-------|--------|
@@ -66,7 +90,7 @@
 
 ---
 
-## 3. Component Boundary Review
+## 4. Component Boundary Review
 
 | Component | API Calls | Props Typed | Focused | Verdict |
 |-----------|-----------|-------------|---------|---------|
@@ -92,13 +116,13 @@
 
 ---
 
-## 4. Test Coverage Snapshot
+## 5. Test Coverage Snapshot
 
 | Layer | Files | Coverage Assessment |
 |-------|-------|---------------------|
 | Stores | `ticketStore.test.ts`, `ticketDetailStore.test.ts` | Core logic covered (mode, delta merge, approve, conflict) |
 | Components | `ticketRow.test.tsx`, `resizableSplit.test.tsx` | 2 of 17 components tested |
-| Hooks | none | `useKeyboardShortcuts`, `useResizable` untested |
+| Hooks | `keyboardShortcuts.test.ts` | `useKeyboardShortcuts` covered; `useResizable` untested |
 | API | none | `api.ts` untested |
 | E2E | `masterTicketView.spec.ts` | 3 smoke tests (mode switch, keyboard shortcut, fixture load) |
 | Fixtures | `fixtures.test.ts` | Validates shape, ASIL/status coverage, timestamps |
@@ -107,7 +131,7 @@
 
 ---
 
-## 5. Auditor Resistance Notes
+## 6. Auditor Resistance Notes
 
 - **No dead code artifacts:** Working tree is clean, no commented-out blocks of significance, no `TODO`/`FIXME` markers in production source.
 - **No anti-debugging:** No `debugger` stripping, no `eval`, no obfuscation.
