@@ -20,12 +20,13 @@ export function Header({ reconnecting }: HeaderProps) {
         <span style={{ fontWeight: 600, fontSize: '14px' }}>Nexous</span>
         <ModeToggle />
         {reconnecting && (
-          <span style={{ fontSize: '12px', color: '#f59e0b' }}>Reconnecting...</span>
+          <span aria-live="polite" style={{ fontSize: '12px', color: '#f59e0b' }}>Reconnecting...</span>
         )}
       </div>
       <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
         <input
           type="search"
+          aria-label="Search tickets"
           placeholder="Search tickets..."
           style={{
             padding: '4px 8px',

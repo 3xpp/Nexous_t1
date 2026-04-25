@@ -26,7 +26,17 @@ export function AuditTab() {
       {(entries || []).map((entry: AuditEntry) => (
         <div
           key={entry.entry_id}
+          role="button"
+          tabIndex={0}
+          aria-expanded={expandedId === entry.entry_id}
+          aria-label={`Audit entry ${entry.action} by ${entry.actor}`}
           onClick={() => setExpandedId(expandedId === entry.entry_id ? null : entry.entry_id)}
+          onKeyDown={(e: KeyboardEvent) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              setExpandedId(expandedId === entry.entry_id ? null : entry.entry_id);
+            }
+          }}
           style={{
             padding: '12px',
             border: '1px solid #e5e7eb',

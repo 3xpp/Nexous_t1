@@ -13,7 +13,7 @@
 | Code Quality | B+ | 2 boundary violations, 1 HTML semantics issue, 1 unimplemented handler |
 | Test Coverage | B- | 5 unit files, 3 E2E tests; ~71% of components untested |
 | Data Realism | A- | Fixtures cover all ASIL levels, statuses, timestamps validated; clause references now varied per domain |
-| Auditor Resistance | B+ | tsc clean, no console/debugger, but API leaks in components |
+| Auditor Resistance | A- | tsc clean, no console/debugger; accessibility gaps and magic numbers fixed |
 
 ---
 
@@ -101,7 +101,66 @@
 
 ---
 
-## 4. Static Analysis
+## 4. Auditor Resistance Findings
+
+### High: ModeToggle lacks accessibility attributes
+- **File:** `src/components/ModeToggle.tsx`
+- **Impact:** Screen readers cannot identify the control as a mode switch; buttons have no pressed state.
+- **Action:** Added `role="group"`, `aria-label="View mode"`, `type="button"`, and `aria-pressed` on each button. Fixed ✓
+
+### High: TicketRow is a clickable div without ARIA
+- **File:** `src/components/TicketRow.tsx`
+- **Impact:** Keyboard and screen-reader users cannot select tickets.
+- **Action:** Added `role="button"`, `tabIndex={0}`, `aria-label`, and `onKeyDown` handler for Enter/Space. Fixed ✓
+
+### High: TicketDetailPane tabs lack ARIA roles
+- **File:** `src/components/TicketDetailPane.tsx`
+- **Impact:** Tab interface is not announced to assistive technology.
+- **Action:** Added `role="tablist"`, `role="tab"`, `aria-selected`, and `type="button"` to tabs. Fixed ✓
+
+### High: AuditTab entries are inaccessible expandables
+- **File:** `src/components/AuditTab.tsx`
+- **Impact:** Expandable audit entries are not keyboard-operable and lack expanded state.
+- **Action:** Added `role="button"`, `tabIndex={0}`, `aria-expanded`, `aria-label`, and keyboard handler. Fixed ✓
+
+### Medium: Header search input lacks label
+- **File:** `src/components/Header.tsx`
+- **Impact:** Unlabelled search field fails WCAG 3.3.2.
+- **Action:** Added `aria-label="Search tickets"` and `aria-live="polite"` on reconnecting status. Fixed ✓
+
+### Medium: ResizableSplit separator lacks value metadata
+- **File:** `src/components/ResizableSplit.tsx`
+- **Impact:** Screen readers cannot report the current pane width.
+- **Action:** Added `aria-valuenow`, `aria-valuemin`, `aria-valuemax` to the separator. Fixed ✓
+
+### Medium: SkeletonShimmer lacks busy status
+- **File:** `src/components/SkeletonShimmer.tsx`
+- **Impact:** Loading state is not announced.
+- **Action:** Added `role="status"`, `aria-busy="true"`, and `aria-label="Loading"`. Fixed ✓
+
+### Medium: DraftTab buttons lack explicit type
+- **File:** `src/components/DraftTab.tsx`
+- **Impact:** Implicit button type can cause unexpected form submission if wrapped in a `<form>`.
+- **Action:** Added `type="button"` to all action buttons. Fixed ✓
+
+### Medium: ErrorInline retry button lacks explicit type
+- **File:** `src/components/ErrorInline.tsx`
+- **Impact:** Same implicit-type risk.
+- **Action:** Added `type="button"`. Fixed ✓
+
+### Medium: MasterTicketView uses magic numbers for reconnection backoff
+- **File:** `src/components/MasterTicketView.tsx`
+- **Impact:** Raw literals (1000, 30000) reduce readability and audit traceability.
+- **Action:** Extracted `INITIAL_RECONNECT_DELAY` and `MAX_RECONNECT_DELAY` constants. Fixed ✓
+
+### Medium: QueuePane list lacks semantic role
+- **File:** `src/components/QueuePane.tsx`
+- **Impact:** Screen readers do not recognize the ticket list as a collection.
+- **Action:** Added `role="list"` and `aria-label="Ticket queue"`. Fixed ✓
+
+---
+
+## 5. Static Analysis
 
 | Check | Result |
 |-------|--------|
@@ -111,7 +170,7 @@
 
 ---
 
-## 5. Component Boundary Review
+## 6. Component Boundary Review
 
 | Component | API Calls | Props Typed | Focused | Verdict |
 |-----------|-----------|-------------|---------|---------|
@@ -137,7 +196,7 @@
 
 ---
 
-## 6. Test Coverage Snapshot
+## 7. Test Coverage Snapshot
 
 | Layer | Files | Coverage Assessment |
 |-------|-------|---------------------|
@@ -152,7 +211,7 @@
 
 ---
 
-## 7. Auditor Resistance Notes
+## 8. Auditor Resistance Notes
 
 - **No dead code artifacts:** Working tree is clean, no commented-out blocks of significance, no `TODO`/`FIXME` markers in production source.
 - **No anti-debugging:** No `debugger` stripping, no `eval`, no obfuscation.

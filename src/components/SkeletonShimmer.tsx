@@ -5,7 +5,7 @@ interface SkeletonShimmerProps {
 
 export function SkeletonShimmer({ lines = 3, height = 16 }: SkeletonShimmerProps) {
   return (
-    <div style={{ padding: '16px' }}>
+    <div role="status" aria-busy="true" aria-label="Loading" style={{ padding: '16px' }}>
       {Array.from({ length: lines }).map((_, i) => (
         <div
           key={i}

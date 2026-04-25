@@ -30,7 +30,7 @@ export function QueuePane() {
   }, [tickets, selectedId]);
 
   return (
-    <div ref={listRef} style={{ height: '100%', overflow: 'auto' }}>
+    <div ref={listRef} role="list" aria-label="Ticket queue" style={{ height: '100%', overflow: 'auto' }}>
       {tickets.map((ticket: TicketSummary) => (
         <TicketRow
           key={ticket.ticket_id}

@@ -6,6 +6,9 @@ import { ReviewerLayout } from './ReviewerLayout';
 import { LeadLayout } from './LeadLayout';
 import { useKeyboardShortcuts } from '../hooks/useKeyboardShortcuts';
 
+const INITIAL_RECONNECT_DELAY = 1000;
+const MAX_RECONNECT_DELAY = 30000;
+
 interface MasterTicketViewProps {
   projectId: string;
 }
@@ -13,7 +16,7 @@ interface MasterTicketViewProps {
 export function MasterTicketView({ projectId }: MasterTicketViewProps) {
   useKeyboardShortcuts();
   const reconnectTimeoutRef = useRef<number | null>(null);
-  const reconnectDelayRef = useRef(1000);
+  const reconnectDelayRef = useRef(INITIAL_RECONNECT_DELAY);
 
   useEffect(() => {
     ticketStore.init();
@@ -24,18 +27,18 @@ export function MasterTicketView({ projectId }: MasterTicketViewProps) {
         (delta) => ticketStore.applyDelta(delta),
         () => {
           es.close();
-          const delay = Math.min(reconnectDelayRef.current, 30000);
+          const delay = Math.min(reconnectDelayRef.current, MAX_RECONNECT_DELAY);
           reconnectTimeoutRef.current = window.setTimeout(() => {
-            reconnectDelayRef.current = Math.min(reconnectDelayRef.current * 2, 30000);
+            reconnectDelayRef.current = Math.min(reconnectDelayRef.current * 2, MAX_RECONNECT_DELAY);
             connect();
           }, delay);
         }
       );
       ticketStore.sseConnection.value = es;
-      reconnectDelayRef.current = 1000;
+      reconnectDelayRef.current = INITIAL_RECONNECT_DELAY;
 
       es.addEventListener('open', () => {
-        reconnectDelayRef.current = 1000;
+        reconnectDelayRef.current = INITIAL_RECONNECT_DELAY;
       });
     }
 
@@ -48,7 +51,7 @@ export function MasterTicketView({ projectId }: MasterTicketViewProps) {
   }, [projectId]);
 
   const mode = ticketStore.mode.value;
-  const reconnecting = reconnectDelayRef.current !== null && reconnectDelayRef.current > 1000;
+  const reconnecting = reconnectDelayRef.current !== null && reconnectDelayRef.current > INITIAL_RECONNECT_DELAY;
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', fontFamily: 'Inter, sans-serif' }}>

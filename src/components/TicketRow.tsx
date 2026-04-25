@@ -35,7 +35,19 @@ export function TicketRow({ ticket, isSelected, onSelect, density }: TicketRowPr
   };
 
   return (
-    <div style={baseStyle} onClick={() => onSelect(ticket.ticket_id)}>
+    <div
+      role="button"
+      tabIndex={0}
+      aria-label={`Ticket ${ticket.ticket_id} — ${ticket.requirement_summary}`}
+      style={baseStyle}
+      onClick={() => onSelect(ticket.ticket_id)}
+      onKeyDown={(e: KeyboardEvent) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onSelect(ticket.ticket_id);
+        }
+      }}
+    >
       <div style={{
         width: '8px',
         height: '8px',

@@ -43,6 +43,7 @@ export function DraftTab() {
               This draft was modified by another reviewer. Latest version: {mergeState.latestVersion}.
             </p>
             <button
+              type="button"
               onClick={() => ticketDetailStore.resolveMerge(mergeState.latestVersion)}
               style={{ padding: '4px 12px', fontSize: '13px', border: '1px solid #f59e0b', background: '#fff', borderRadius: '4px', cursor: 'pointer' }}
             >
@@ -64,12 +65,14 @@ export function DraftTab() {
         {isEditing ? (
           <>
             <button
+              type="button"
               onClick={() => { setIsEditing(false); setEditContent(''); }}
               style={{ padding: '6px 16px', fontSize: '13px', border: '1px solid #d1d5db', background: '#fff', borderRadius: '4px', cursor: 'pointer' }}
             >
               Cancel
             </button>
             <button
+              type="button"
               onClick={() => { setIsEditing(false); /* save editContent */ }}
               style={{ padding: '6px 16px', fontSize: '13px', border: 'none', background: '#2563eb', color: '#fff', borderRadius: '4px', cursor: 'pointer' }}
             >
@@ -79,18 +82,21 @@ export function DraftTab() {
         ) : (
           <>
             <button
+              type="button"
               onClick={() => ticketDetailStore.approve()}
               style={{ padding: '6px 16px', fontSize: '13px', border: 'none', background: '#22c55e', color: '#fff', borderRadius: '4px', cursor: 'pointer' }}
             >
               Approve (A)
             </button>
             <button
+              type="button"
               onClick={() => ticketDetailStore.reject()}
               style={{ padding: '6px 16px', fontSize: '13px', border: 'none', background: '#ef4444', color: '#fff', borderRadius: '4px', cursor: 'pointer' }}
             >
               Reject (R)
             </button>
             <button
+              type="button"
               onClick={() => { setEditContent(ticket.draft_content); setIsEditing(true); }}
               style={{ padding: '6px 16px', fontSize: '13px', border: '1px solid #d1d5db', background: '#fff', borderRadius: '4px', cursor: 'pointer' }}
             >

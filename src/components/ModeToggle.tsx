@@ -4,8 +4,10 @@ export function ModeToggle() {
   const mode = ticketStore.mode.value;
 
   return (
-    <div style={{ display: 'flex', gap: '4px', background: '#f3f4f6', padding: '2px', borderRadius: '4px' }}>
+    <div role="group" aria-label="View mode" style={{ display: 'flex', gap: '4px', background: '#f3f4f6', padding: '2px', borderRadius: '4px' }}>
       <button
+        type="button"
+        aria-pressed={mode === 'reviewer'}
         onClick={() => ticketStore.setMode('reviewer')}
         style={{
           padding: '4px 12px',
@@ -21,6 +23,8 @@ export function ModeToggle() {
         Reviewer
       </button>
       <button
+        type="button"
+        aria-pressed={mode === 'lead'}
         onClick={() => ticketStore.setMode('lead')}
         style={{
           padding: '4px 12px',

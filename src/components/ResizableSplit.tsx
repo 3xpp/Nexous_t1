@@ -25,6 +25,9 @@ export function ResizableSplit({ initialLeftWidth, minLeftWidth, maxLeftWidth, c
       <div
         role="separator"
         aria-orientation="vertical"
+        aria-valuenow={width}
+        aria-valuemin={minLeftWidth}
+        aria-valuemax={maxLeftWidth}
         onMouseDown={onMouseDown}
         style={{
           width: '4px',

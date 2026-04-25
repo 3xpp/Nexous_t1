@@ -54,10 +54,13 @@ export function TicketDetailPane() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-      <div style={{ display: 'flex', borderBottom: '1px solid #e5e7eb', background: '#f9fafb' }}>
+      <div role="tablist" style={{ display: 'flex', borderBottom: '1px solid #e5e7eb', background: '#f9fafb' }}>
         {TABS.map((tab) => (
           <button
+            type="button"
+            role="tab"
             key={tab.key}
+            aria-selected={activeTab === tab.key}
             onClick={() => setActiveTab(tab.key)}
             style={{
               padding: '8px 16px',
